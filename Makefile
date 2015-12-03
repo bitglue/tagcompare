@@ -1,34 +1,31 @@
-install:
-	pip install -r requirements.txt -q
-
 .PHONY: flake
-flake: install
+flake:
 	flake8
 
 .PHONY: test
-test: install flake
+test: flake
 	PYTHONPATH=. py.test -s -m "not integration" --cov-config .coveragerc --cov-report=term-missing --cov=tagcompare tagcompare/test/
 
 .PHONY: test-all
-test-all: install flake
+test-all: flake
 	PYTHONPATH=. py.test -s --cov-config .coveragerc --cov-report=term-missing --cov=tagcompare tagcompare/test/
 
 # Do a funn run including gather image and compare them
 .PHONY: run
-run: install
+run:
 	cd tagcompare && python main.py
 
 # Do a compare only run from previously gathered images
 .PHONY: compare
-compare: install
+compare:
 	cd tagcompare && python compare.py
 
 # Aggregates the output
 .PHONY: output
-output: install
+output:
 	cd tagcompare && python output.py
 
 # Captures screenshots for tags
 .PHONY: capture
-capture: install
+capture:
 	cd tagcompare && python capture.py
